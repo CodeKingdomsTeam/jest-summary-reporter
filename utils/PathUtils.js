@@ -1,13 +1,15 @@
 const { white } = require('./BashColorUtils');
 
+const regexPathSeparator = require('path').sep === '/' ? '/' : '\\\\';
+
 function processFullPath(fullPath) {
-  let pathSeparationPattern = /^(.+)(test\\.+\\)(.+)$/;
+  let pathSeparationPattern = new RegExp(`^(.+)(test${regexPathSeparator}.+${regexPathSeparator})(.+)$`);
   let pathSeparationResult = fullPath.match(pathSeparationPattern);
   //Can happen if there is no `test` folder on the path
   if (!pathSeparationResult) {
     return path({
       path: "",
-      file: slash(fullPath.match(/(.+\\)(.+)$/)[2])
+      file: slash(fullPath.match(new RegExp(`(.+${regexPathSeparator})(.+)$`))[2])
     })
   } else {
     return path({
